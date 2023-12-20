@@ -1,0 +1,31 @@
+{
+  "name": "openai-microservice",
+  "version": "1.0.0",
+  "description": "Backend server that for calling OpenAI's API and returning the results to the client.",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "node build.mjs",
+    "serve": "node build.mjs && node dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "openai",
+    "microservice",
+    "backend"
+  ],
+  "author": "P.J. Visser",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "openai": "^4.23.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.5",
+    "esbuild": "^0.19.9"
+  }
+}
