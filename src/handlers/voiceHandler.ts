@@ -42,7 +42,15 @@ export const voiceHandler: RequestHandler = async (req, res) => {
 		throw error;
 	}
 
-	const transcription = (await transcribe(body.sttModel, body.audio)).text;
+	let transcription: string;
+	try {
+		transcription = (await transcribe(body.sttModel, body.audio)).text;
+	}
+	catch (error) {
+		console.error(error);
+		res.status(500).json({ error });
+		return;
+	}
 	const chat = body.chat;
 	const systemPromptAppendix = '\n\n' + 'Use short paragraphs. Separate paragraphs in your response with a blank line.';
 	const systemPrompt = chat.find((item) => item.role === 'system');
@@ -118,7 +126,7 @@ export const voiceHandler: RequestHandler = async (req, res) => {
 
 	chatStream.on('error', (error) => {
 		console.error(error);
-		res.status(500).json({ error: error.message });
+		res.status(500).json({ error });
 	});
 
 	const streamChatResponsePartToResponse = async (
