@@ -1,6 +1,6 @@
 # OpenAI Streaming Voice Chat
 
-Speak to one of OpenAI's models with reduced latency. This is a proof of concept for a voice chat application that uses OpenAI's API to generate responses to your speech in real time.
+Speak to one of OpenAI's models with reduced latency.
 
 The latency is reduced by dividing the response in paragraph-sized chunks. As soon as a chunk is fully generated, the audio is requested and added to the response. This allows the audio to be played while the next chunk is being generated.
 
