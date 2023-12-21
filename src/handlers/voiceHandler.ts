@@ -20,6 +20,7 @@ const bodySchema = z.object({
 		name: z.string().max(255).optional(),
 	})),
 	audio: z.string().max(1e6),
+	audioFormat: z.string().max(255).default('webm'),
 });
 
 type Body = z.infer<typeof bodySchema>;
@@ -44,7 +45,7 @@ export const voiceHandler: RequestHandler = async (req, res) => {
 
 	let transcription: string;
 	try {
-		transcription = (await transcribe(body.sttModel, body.audio)).text;
+		transcription = (await transcribe(body.sttModel, body.audio, body.audioFormat)).text;
 	}
 	catch (error) {
 		console.error(error);
