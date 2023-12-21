@@ -163,13 +163,13 @@ export const voiceHandler: RequestHandler = async (req, res) => {
 			logger.debug('writing chunk');
 	
 			const queryBuffer = Buffer.from(query);
-			const queryBufferLength = Buffer.alloc(2);
-			queryBufferLength.writeUInt16LE(queryBuffer.length);
+			const queryBufferLength = Buffer.alloc(4);
+			queryBufferLength.writeUInt32LE(queryBuffer.length);
 			logger.debug('query length', queryBuffer.length);
 	
 			const textResponseBuffer = Buffer.from(chatResponsePart);
-			const textResponseBufferLength = Buffer.alloc(2);
-			textResponseBufferLength.writeUInt16LE(textResponseBuffer.length);
+			const textResponseBufferLength = Buffer.alloc(4);
+			textResponseBufferLength.writeUInt32LE(textResponseBuffer.length);
 			logger.debug('text response length', textResponseBuffer.length);
 	
 			const audioResponseBuffer = Buffer.concat(audioBuffers);
