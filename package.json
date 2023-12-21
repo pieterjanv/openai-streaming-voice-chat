@@ -6,6 +6,7 @@
   "scripts": {
     "build": "node build.mjs",
     "serve": "node build.mjs && node dist/index.js",
+    "client-example": "cd examples/client && node build.mjs && node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
