@@ -2,6 +2,10 @@
 
 Speak to one of OpenAI's models with reduced latency. This is a proof of concept for a voice chat application that uses OpenAI's API to generate responses to your speech in real time.
 
+The latency is reduced by dividing the response in paragraph-sized chunks. As soon as a chunk is fully generated, the audio is requested and added to the response. This allows the audio to be played while the next chunk is being generated.
+
+I would love to play the audio response stream as is, but I haven't found a reliable way of doing this in the browser.
+
 
 ## Requirements
 
@@ -36,12 +40,9 @@ Speak to one of OpenAI's models with reduced latency. This is a proof of concept
 
 ## Parsing the response
 
+Recovering the data takes some effort. The following is the gist of how this can be done.
+
 The response is sent in chunks. Below, a chunk corresponds to a paragraph (defined as sections separated by a blank line), where for each paragraph the query, text response and audio response are sent over the network in that order, each prefixed by their length as a 32-bit integer in LE format.
-
-
-### The gist
-
-As the size of the values received is not known, recovering the data takes some effort. The following is the gist of how this can be done.
 
 Playing the resulting audio object urls in sequence will play the audio response, and is left as an exercise.
 
@@ -80,8 +81,6 @@ let queryLength = 0;
 let responseTextLength = 0;
 let responseAudioLength = 0;
 const responseAudioFileUrls: string[] = [];
-let isQueueReady = false;
-let isQueueComplete = false;
 let assistantMessageText = '';
 
 // Get a reader for the response body stream
@@ -92,7 +91,6 @@ const read = async () => {
 	const { value, done } = await reader.read();
 
 	if (done) {
-		isQueueComplete = true;
 		return;
 	}
 

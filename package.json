@@ -1,5 +1,5 @@
 {
-  "name": "openai-microservice",
+  "name": "openai-streaming-voice-chat",
   "version": "1.0.0",
   "description": "Backend server that for calling OpenAI's API and returning the results to the client.",
   "main": "src/index.js",
@@ -10,7 +10,10 @@
   },
   "keywords": [
     "openai",
-    "microservice",
+    "streaming",
+    "voice",
+    "chat",
+    "api",
     "backend"
   ],
   "author": "P.J. Visser",
