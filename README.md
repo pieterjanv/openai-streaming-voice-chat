@@ -19,7 +19,7 @@ I would love to play the audio response stream as is, but I haven't found a reli
 1. `npm install`
 2. Copy `.env.example` to `.env` for adding configuration.
 3. Build and launch a server using `npm run serve`. This server is not suitable for production use. Refer to best practices for deploying Node.js applications.
-4. Send a post request to `/voice` with the a body as described below.
+4. Send a post request to `/voice` with a body as described below.
 
 
 ###	Request body
