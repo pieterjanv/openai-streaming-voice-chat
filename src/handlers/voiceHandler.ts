@@ -16,10 +16,10 @@ const bodySchema = z.object({
 	voice: z.enum([defaultVoice, ...Object.values(TtsVoice).filter(voice => voice !== defaultVoice)]).default(defaultVoice),
 	chat: z.array(z.object({
 		role: z.enum(['system', 'user', 'assistant'] as const),
-		content: z.string().max(10e3),
+		content: z.string().max(Number(process.env.MAX_MESSAGE_CONTENT_LENGTH || 1e4)),
 		name: z.string().max(255).optional(),
 	})),
-	audio: z.string().max(1e6),
+	audio: z.string().max(Number(process.env.MAX_AUDIO_B64_LENGTH || 1e6)),
 	audioFormat: z.string().max(255).default('webm'),
 });
 
@@ -154,7 +154,7 @@ export const voiceHandler: RequestHandler = async (req, res) => {
 		});
 	
 		readableStream.on('close', () => {
-			logger.debug('resolving', responseIndex);
+			logger.debug('response part audio closed', responseIndex);
 		});
 	
 		readableStream.on('end', () => {
