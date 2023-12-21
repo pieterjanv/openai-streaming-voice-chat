@@ -97,7 +97,6 @@ const read = async () => {
 	}
 
 	// initialization
-	const responseAudioParts: Uint8Array[] = [];
 	let byteLength = value.buffer.byteLength;
 	let bytesRead = 0;
 	let query = '';
@@ -184,9 +183,8 @@ const read = async () => {
 					responseAudioLength,
 					(chunkPart) => {
 						// if the audio response chunk part has been parsed, add it to the queue
-						responseAudioParts.push(new Uint8Array(chunkPart));
 						const file = new File(
-							responseAudioParts,
+							[new Uint8Array(chunkPart)],
 							`response.${outputFormat}`,
 							{ type: `audio/${outputFormat}` },
 						);
