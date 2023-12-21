@@ -37,7 +37,6 @@ I would love to play the audio response stream as is, but I haven't found a reli
 | `outputFormat` | string | Format of the audio data returned by the API; one of `'opus'`, `'mp3'`, `'aac'`, `'flac'`. | `'opus'` |
 
 
-
 ## Parsing the response
 
 Recovering the data takes some effort. The following is the gist of how this can be done.
