@@ -7,7 +7,7 @@ import 'dotenv/config';
 
 const app = express();
 app.use(cors({
-	origin: 'http://localhost:8000',
+	origin: process.env.CORS_ORIGIN || '*',
 }));
 
 export const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });

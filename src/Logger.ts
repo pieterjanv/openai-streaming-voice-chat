@@ -5,7 +5,7 @@ export class Logger {
 	}
 
 	debug(...args: any[]) {
-		if (process.env.ENV === 'development') {
+		if (process.env.ENV === 'development' && process.env.DEBUG === 'true') {
 			console.log(...args);
 		}
 	}

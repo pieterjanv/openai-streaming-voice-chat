@@ -53,13 +53,13 @@ export const voiceHandler: RequestHandler = async (req, res) => {
 		return;
 	}
 	const chat = body.chat;
-	const systemPromptAppendix = '\n\n' + 'Use short paragraphs. Separate paragraphs in your response with a blank line.';
+	const systemPromptPostFix = process.env.SYSTEM_PROMPT_POSTFIX ?? '\n\n' + 'Use short paragraphs. Separate paragraphs in your response with a blank line.';
 	const systemPrompt = chat.find((item) => item.role === 'system');
 	if (systemPrompt) {
-		systemPrompt.content += systemPrompt.content.endsWith(systemPromptAppendix) ? '' : systemPromptAppendix;
+		systemPrompt.content += systemPrompt.content.endsWith(systemPromptPostFix) ? '' : systemPromptPostFix;
 	}
 	else {
-		chat.push({
+		chat.unshift({
 			role: 'system',
 			content: 'Separate paragraphs in your response with a blank line.',
 			name: 'system',
@@ -159,8 +159,8 @@ export const voiceHandler: RequestHandler = async (req, res) => {
 	
 		readableStream.on('end', () => {
 	
-			logger.log('response part audio ended');
-			logger.log('writing chunk');
+			logger.debug('response part audio ended');
+			logger.debug('writing chunk');
 	
 			const queryBuffer = Buffer.from(query);
 			const queryBufferLength = Buffer.alloc(2);
@@ -190,7 +190,7 @@ export const voiceHandler: RequestHandler = async (req, res) => {
 	
 			isQueueOpen = true;
 			if (isFinal) {
-				console.log('ending response');
+				logger.debug('ending response');
 				clearInterval(queueWorker);
 				res.end();
 			};
