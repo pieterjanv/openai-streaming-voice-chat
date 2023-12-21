@@ -19,8 +19,9 @@ const bodySchema = z.object({
 		content: z.string().max(Number(process.env.MAX_MESSAGE_CONTENT_LENGTH || 1e4)),
 		name: z.string().max(255).optional(),
 	})),
-	audio: z.string().max(Number(process.env.MAX_AUDIO_B64_LENGTH || 1e6)),
-	audioFormat: z.string().max(255).default('webm'),
+	input: z.string().max(Number(process.env.MAX_AUDIO_B64_LENGTH || 1e6)),
+	inputFormat: z.string().max(255).default('webm'),
+	outputFormat: z.enum(['opus', 'mp3', 'aac', 'flac']).default('opus'),
 });
 
 type Body = z.infer<typeof bodySchema>;
@@ -45,7 +46,7 @@ export const voiceHandler: RequestHandler = async (req, res) => {
 
 	let transcription: string;
 	try {
-		transcription = (await transcribe(body.sttModel, body.audio, body.audioFormat)).text;
+		transcription = (await transcribe(body.sttModel, body.input, body.inputFormat)).text;
 	}
 	catch (error) {
 		console.error(error);
@@ -145,6 +146,7 @@ export const voiceHandler: RequestHandler = async (req, res) => {
 			requestBody.ttsModel,
 			chatResponsePart,
 			requestBody.voice,
+			requestBody.outputFormat,
 		)).body;
 		logger.debug('received audio');
 	
