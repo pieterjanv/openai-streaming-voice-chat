@@ -10,7 +10,6 @@ I would love to simply pipe OpenAI's audio response to client, but I haven't fou
 ## Requirements
 
 - Node.js
-- TypeScript
 - OpenAI API key
 
 
