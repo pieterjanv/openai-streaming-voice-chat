@@ -4,7 +4,7 @@ Speak to any of OpenAI's models with reduced latency.
 
 The latency is reduced by dividing the response in paragraph-sized chunks. As soon as a chunk is fully generated (text and then audio), it is added to the response. This allows the audio to be played while the next chunk is being generated.
 
-I would love to simply pipe OpenAI's audio response to client, but I haven't found a reliable way of playing a chunked audio response in the browser.
+I would love to simply pipe OpenAI's audio response to the client, but I haven't found a reliable way of playing a chunked audio response in the browser.
 
 
 ## Requirements
