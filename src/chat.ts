@@ -14,6 +14,7 @@ export const getStream = async (model: string, chat: Chat): Promise<ChatCompleti
 		model: model,
 		messages: chat,
 		stream: true,
+		max_tokens: Number(process.env.MAX_RESPONSE_TOKENS || 2000),
 	});
 
 	if (!stream) throw new Error('Could not create stream');
