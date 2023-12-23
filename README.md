@@ -18,10 +18,12 @@ I would love to simply pipe OpenAI's audio response to the client, but I haven't
 1. `npm install`
 2. Copy `.env.example` to `.env` for adding configuration.
 3. Build and launch a server using `npm run serve`. This server is not suitable for production use. Refer to best practices for deploying Node.js applications.
-4. Send a post request to `/voice` with a body as described below.
+4. Send a post request to `/voice` with a JSON object body with fields as defined below.
 
 
-###	Request body
+### Request body
+
+Send a POST request of type `application/json` containing an object with the following fields.
 
 | Field | Type | Description | Default |
 | --- | --- | --- | --- |
