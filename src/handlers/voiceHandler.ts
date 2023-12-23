@@ -80,8 +80,8 @@ export const voiceHandler: RequestHandler = async (req, res) => {
 	let nextChatResponsePartIndex = 0;
 	const partTerminationString = '\n\n';
 	const queueWorker = setInterval(() => {
-		if (!isQueueOpen || !chatChunks.length) {
-			logger.debug('queue not open or no response part');
+		if (!isQueueOpen) {
+			logger.debug('queue not open');
 			return;
 		}
 		const responsePart = chatChunks.shift();
@@ -90,13 +90,14 @@ export const voiceHandler: RequestHandler = async (req, res) => {
 			return;
 		}
 		isQueueOpen = false;
-		logger.debug('queue should end', isQueueComplete && chatChunks.length === 0);
+		const isFinal = isQueueComplete && chatChunks.length === 0;
+		logger.debug('queue should end', isFinal);
 		streamChatResponsePartToResponse(
 			res,
 			body,
 			transcription,
 			responsePart,
-			isQueueComplete && chatChunks.length === 0,
+			isFinal,
 		);
 		responseIndex++;
 	}, 50);
@@ -121,8 +122,11 @@ export const voiceHandler: RequestHandler = async (req, res) => {
 
 	chatStream.on('finalContent', async (snapshot) => {
 		logger.debug('final content received');
-		const chatResponsePart = snapshot.slice(nextChatResponsePartIndex, snapshot.length);
 		isQueueComplete = true;
+		if (snapshot.endsWith(partTerminationString)) {
+			return;
+		}
+		const chatResponsePart = snapshot.slice(nextChatResponsePartIndex);
 		chatChunks.push(chatResponsePart);
 	});
 
